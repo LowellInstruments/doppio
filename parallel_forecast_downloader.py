@@ -1,7 +1,4 @@
-import os
 import pathlib
-import shutil
-
 import requests
 import time
 from multiprocessing import cpu_count
@@ -44,8 +41,8 @@ def forecast_downloader(ds, de, filename):
                 'T%3A00%3A00%3A00Z&timeStride=1&vertCoord=-0.9875&accept=netcdf')
 
     # so results folder is always new
-    print(f'DOWNLOADER removing old results folder {DL_FOLDER}')
-    shutil.rmtree(DL_FOLDER)
+    # print(f'DOWNLOADER removing old results folder {DL_FOLDER}')
+    # shutil.rmtree(DL_FOLDER)
 
     # create results folder
     print(f'DOWNLOADER creating new results folder {DL_FOLDER}')

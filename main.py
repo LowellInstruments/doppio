@@ -1,6 +1,6 @@
-from doppio_plots_to_gif_forecasts import create_gif
+from to_gif import create_gif
 from parallel_forecast_downloader import forecast_downloader
-from plot_forecast import plot_forecast
+from to_png import plot_forecast
 from utils import DS, DE, DL_FILENAME
 
 
