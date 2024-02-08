@@ -37,7 +37,7 @@ def plot_forecast(deg, str_tz):
 			daystri = dtime.strftime('%Y-%m-%d %H:%M')
 			daystr = datetime.datetime.strptime(daystri, '%Y-%m-%d %H:%M')
 			utc_stamp = daystr.replace(tzinfo=pytz.UTC)
-			daystr2 = utc_stamp.astimezone(pytz.timezone('America/New_York'))
+			daystr2 = utc_stamp.astimezone(pytz.timezone(str_tz))
 			daystri2 = daystr2.strftime('%Y-%m-%d %H:%M')
 
 			# Set the region to plot
