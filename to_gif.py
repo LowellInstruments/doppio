@@ -8,6 +8,7 @@ def create_gif(deg):
 	assert deg in ('C', 'F')
 
 	# im: PNG images / ff: frames
+	print('\nGIF file creation START')
 	im = get_png_files()
 	ff = [Image.open(i) for i in im]
 	output_gif_name = f'{DL_FILENAME[:-3]}_forecast_{deg}.gif'
