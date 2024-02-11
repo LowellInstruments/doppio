@@ -1,5 +1,5 @@
 from to_gif import create_gif
-from parallel_forecast_downloader import forecast_downloader
+from forecast_dl import forecast_downloader
 from to_png import plot_forecast
 from utils import DS, DE, DL_FILENAME
 

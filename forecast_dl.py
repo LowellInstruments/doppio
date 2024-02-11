@@ -16,7 +16,7 @@ def _download_url(url, fn):
 
 def forecast_downloader(ds, de, fn):
 
-    print('\nDOWNLOADER START, output folder: \n\t{DL_FOLDER}')
+    print(f'\nDOWNLOADER START, output folder: \n\t{DL_FOLDER}')
     # so results folder is always new
     # print(f'DOWNLOADER removing old results folder {DL_FOLDER}')
     # shutil.rmtree(DL_FOLDER)
