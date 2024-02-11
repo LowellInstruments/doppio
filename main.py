@@ -11,7 +11,7 @@ def main():
 
     # create png files of it
     deg = 'C'
-    str_tz = 'UTC'
+    str_tz = 'America/New_York'
     plot_forecast(deg, str_tz)
 
     # create gif of previous png files

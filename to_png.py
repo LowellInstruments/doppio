@@ -7,6 +7,7 @@ import numpy.ma as ma
 import datetime
 import pytz
 from utils import get_nc_files, DL_FILENAME
+from zoneinfo import ZoneInfo
 
 
 def plot_forecast(deg, str_tz):
@@ -21,21 +22,23 @@ def plot_forecast(deg, str_tz):
         times = ma.getdata(nc.variables['time'][:])
 
         for i, t in enumerate(times):
-            # Get the lat/lon coordinates
+
+            # get info from NC data
             lat = nc.variables['lat_rho'][:]
             lon = nc.variables['lon_rho'][:]
-
-            # Get the temperature values
             temp = nc.variables['temp'][i]
 
             # Get the time and convert to a string
             start = datetime.datetime(2017, 11, 1, 00, 00, 00, 0)
-            dtime = start + datetime.timedelta(hours=t)
-            daystri = dtime.strftime('%Y-%m-%d %H:%M')
-            daystr = datetime.datetime.strptime(daystri, '%Y-%m-%d %H:%M')
-            utc_stamp = daystr.replace(tzinfo=pytz.UTC)
+            # start: datetime 2017-11-01 00:00:00
+            # t can be around 55000 hours
+            utc_stamp = (start + datetime.timedelta(hours=t)).replace(tzinfo=pytz.UTC)
+            print('utc_stamp', utc_stamp)
+            # utc_stamp 2024-02-14 12:00:00+00:00
             daystr2 = utc_stamp.astimezone(pytz.timezone(str_tz))
+            # daystr2 datetime.datetime(2024, 2, 10, 20, 0, tzinfo=<DstTzInfo 'America/New_York' EST-1 day, 19:00:00 STD>)
             daystri2 = daystr2.strftime('%Y-%m-%d %H:%M')
+            # daystri2 '2024-02-10 20:00'
 
             # Set the region to plot
             ax = [-75, -66, 38, 45]
