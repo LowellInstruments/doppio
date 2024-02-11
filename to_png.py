@@ -33,12 +33,9 @@ def plot_forecast(deg, str_tz):
             # start: datetime 2017-11-01 00:00:00
             # t can be around 55000 hours
             utc_stamp = (start + datetime.timedelta(hours=t)).replace(tzinfo=pytz.UTC)
-            print('utc_stamp', utc_stamp)
-            # utc_stamp 2024-02-14 12:00:00+00:00
             daystr2 = utc_stamp.astimezone(pytz.timezone(str_tz))
-            # daystr2 datetime.datetime(2024, 2, 10, 20, 0, tzinfo=<DstTzInfo 'America/New_York' EST-1 day, 19:00:00 STD>)
             daystri2 = daystr2.strftime('%Y-%m-%d %H:%M')
-            # daystri2 '2024-02-10 20:00'
+            print(daystri2)
 
             # Set the region to plot
             ax = [-75, -66, 38, 45]
