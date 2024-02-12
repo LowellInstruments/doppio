@@ -6,7 +6,7 @@ from utils import DS, DE, DL_FILENAME
 
 def main():
 
-    # download the data
+    # download the NC files
     forecast_downloader(DS, DE, DL_FILENAME)
 
     # create png files of it

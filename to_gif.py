@@ -1,5 +1,4 @@
 import os
-
 from PIL import Image
 from utils import get_png_files, DL_FILENAME
 
