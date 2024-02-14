@@ -1,18 +1,20 @@
 import os
 from PIL import Image
-from utils import get_png_files, DL_FILENAME
+from utils import glob_png_files
 
 
-def create_gif(deg):
+def forecast_gif(deg):
 	assert deg in ('C', 'F')
 
 	# im: PNG images / ff: frames
-	print('\nGIF file creation START')
-	im = get_png_files()
+	print('\nbuilding GIF files')
+	im = glob_png_files()
 	ff = [Image.open(i) for i in im]
-	output_gif_name = f'{DL_FILENAME[:-3]}_forecast_{deg}.gif'
+
+	# im[-1]: 20240214_C_202402131900.png
+	f_gif = f'{im[-1][:-4]}_forecast.gif'
 	ff[0].save(
-		output_gif_name,
+		f_gif,
 		format='GIF',
 		append_images=ff[1:],
 		save_all=True,
@@ -20,5 +22,5 @@ def create_gif(deg):
 		loop=0
 	)
 
-	bn = os.path.basename(output_gif_name)
-	print(f'built GIF -> {bn}\n')
+	bn = os.path.basename(f_gif)
+	print(f'{bn}\n')

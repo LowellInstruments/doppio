@@ -1,21 +1,14 @@
-from to_gif import create_gif
-from forecast_dl import forecast_downloader
-from to_png import plot_forecast
-from utils import DS, DE, DL_FILENAME
+from to_gif import forecast_gif
+from dl import forecast_data_download
+from to_png import forecast_png_by_hour
 
 
 def main():
-
-    # download the NC files
-    forecast_downloader(DS, DE, DL_FILENAME)
-
-    # create png files of it
+    forecast_data_download()
     deg = 'C'
     str_tz = 'America/New_York'
-    plot_forecast(deg, str_tz)
-
-    # create gif of previous png files
-    create_gif(deg)
+    forecast_png_by_hour(deg, str_tz)
+    forecast_gif(deg)
 
 
 if __name__ == '__main__':

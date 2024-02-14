@@ -5,18 +5,24 @@ import matplotlib.pyplot as plt
 import numpy.ma as ma
 import datetime
 import pytz
-from utils import get_nc_files, DL_FILENAME, LON, LAT
+
+from dl import FM4
+from utils import glob_nc_files
 
 
-def plot_forecast(deg, str_tz):
+# area to show in map
+LAT = [38, 45]
+LON = [-75, -66]
 
+
+def forecast_png_by_hour(deg, str_tz):
     # str_tz:  'America/New_York' / 'UTC'
     assert deg in ('C', 'F')
-    print('\nPNG file creation START')
+    print('\nbuilding PNG files')
 
-    for f in get_nc_files():
+    for f_nc in glob_nc_files():
         # load data from .nc file downloaded before
-        nc = netCDF4.Dataset(f)
+        nc = netCDF4.Dataset(f_nc)
         times = ma.getdata(nc.variables['time'][:])
         lat = nc.variables['lat_rho'][:]
         lon = nc.variables['lon_rho'][:]
@@ -26,14 +32,15 @@ def plot_forecast(deg, str_tz):
 
         for i, t in enumerate(times):
             # pivot time t ~ 55000 hours from Nov. 2017 reaches 2024
-            dt_utc = (dt_17 + datetime.timedelta(hours=t)).replace(tzinfo=pytz.UTC)
+            delta = datetime.timedelta(hours=t)
+            dt_utc = (dt_17 + delta).replace(tzinfo=pytz.UTC)
             dt_tz = dt_utc.astimezone(pytz.timezone(str_tz))
-            dt_s = dt_tz.strftime('%Y-%m-%d %H:%M')
+            dt_s = dt_tz.strftime(FM4)
 
-            # Name the image output, lose the '.nc' extension
-            filename = f'{DL_FILENAME[:-3]}_{deg}_{dt_s}.png'
+            # name PNG image output, lose '.nc' extension
+            f_png = f'{f_nc[:-3]}_{dt_s}_{deg}.png'
 
-            # set intensity z and plot
+            # set intensity z
             lvl = np.arange(0, 30, 1)
             lvl = lvl if deg == 'C' else lvl * 1.8 + 32
             fig1, ax1 = plt.subplots()
@@ -44,13 +51,14 @@ def plot_forecast(deg, str_tz):
             tcf = ax1.contourf(x, y, z[0], cmap='jet', levels=lvl)
             cbar = fig1.colorbar(tcf)
             cbar.set_label(f'Bottom Temp ({deg})', rotation=-90)
+
             # set region to plot
             plt.xlim(LON[0], LON[1])
             plt.ylim(LAT[0], LAT[1])
             plt.suptitle(f'{dt_s} {str_tz}')
 
             # create output PNG image
-            plt.savefig(filename)
+            plt.savefig(f_png)
             plt.close()
-            bn = os.path.basename(filename)
-            print(f'built image {bn}')
+            bn = os.path.basename(f_png)
+            print(f'{bn}')
