@@ -1,4 +1,5 @@
-import os
+from os.path import basename
+
 from PIL import Image
 from utils import glob_png_files
 
@@ -22,5 +23,5 @@ def forecast_gif(deg):
 		loop=0
 	)
 
-	bn = os.path.basename(f_gif)
+	bn = basename(f_gif)
 	print(f'{bn}\n')

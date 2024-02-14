@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from to_gif import forecast_gif
 from dl import forecast_data_download
 from to_png import forecast_png_by_hour

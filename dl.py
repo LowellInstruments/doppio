@@ -1,10 +1,11 @@
-import shutil
 from datetime import datetime, UTC, timedelta
-import pathlib
 from os.path import isdir, basename
+from pathlib import Path
+from shutil import rmtree
+from time import time
 
-import requests
-import time
+from requests import get
+
 from utils import build_url, DL_FOL
 
 FM2 = '%Y-%m-%d'
@@ -18,7 +19,7 @@ def get_download_nc_file_path(ds):
 
 def _download_url(url, fn):
     try:
-        r = requests.get(url)
+        r = get(url)
         with open(fn, 'wb') as f:
             f.write(r.content)
         return url
@@ -34,15 +35,15 @@ def forecast_data_download(ds=datetime.now(UTC),
 
     # create download destination folder
     if isdir(DL_FOL):
-        shutil.rmtree(DL_FOL)
-    pathlib.Path(DL_FOL).mkdir(parents=True, exist_ok=True)
+        rmtree(DL_FOL)
+    Path(DL_FOL).mkdir(parents=True, exist_ok=True)
 
     # download remote NC file
-    t = time.time()
+    t = time()
     u = build_url(ds.strftime(FM2), de.strftime(FM2))
     f = get_download_nc_file_path(ds)
     _download_url(u, f)
-    t = time.time() - t
+    t = time() - t
     print(f'file saved -> {basename(f)}')
     print(f'download took {int(t)} seconds')
 

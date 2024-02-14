@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-import uvicorn
-from fastapi import FastAPI
-import os
-from fastapi.responses import FileResponse
-from utils import DL_FILENAME, DS, DE
+from os.path import basename
 
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from uvicorn import run
+
+from utils import glob_gif_files
 
 DDN_PORT_API = 5588
 NAME_EXE_API = "main_doppio_api"
@@ -17,18 +18,18 @@ app = FastAPI()
 
 @app.get("/get_forecast_c")
 async def get_forecast_c():
-    f = f'/tmp/{DL_FILENAME[:-3]}_forecast_C.gif'
-    return FileResponse(path=f, filename=os.path.basename(f))
+    f = glob_gif_files('C')[-1]
+    return FileResponse(path=f, filename=basename(f))
 
 
 @app.get("/get_forecast_f")
 async def get_forecast_f():
-    f = f'/tmp/{DL_FILENAME[:-3]}_forecast_F.gif'
-    return FileResponse(path=f, filename=os.path.basename(f))
+    f = glob_gif_files('F')[-1]
+    return FileResponse(path=f, filename=basename(f))
 
 
 def main_api():
-    uvicorn.run(app, host="0.0.0.0", port=DDN_PORT_API)
+    run(app, host="0.0.0.0", port=DDN_PORT_API)
 
 
 if __name__ == "__main__":

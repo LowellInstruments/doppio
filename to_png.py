@@ -1,10 +1,9 @@
-import os
+from datetime import datetime, timedelta
+from os.path import basename
 import netCDF4
-import numpy as np
-import matplotlib.pyplot as plt
-import numpy.ma as ma
-import datetime
 import pytz
+from matplotlib import pyplot as plt
+from numpy import ma, arange
 
 from dl import FM4
 from utils import glob_nc_files
@@ -26,13 +25,13 @@ def forecast_png_by_hour(deg, str_tz):
         times = ma.getdata(nc.variables['time'][:])
         lat = nc.variables['lat_rho'][:]
         lon = nc.variables['lon_rho'][:]
-        dt_17 = datetime.datetime(2017, 11, 1, 00, 00, 00, 0)
+        dt_17 = datetime(2017, 11, 1, 00, 00, 00, 0)
         y = ma.getdata(lat)
         x = ma.getdata(lon)
 
         for i, t in enumerate(times):
             # pivot time t ~ 55000 hours from Nov. 2017 reaches 2024
-            delta = datetime.timedelta(hours=t)
+            delta = timedelta(hours=t)
             dt_utc = (dt_17 + delta).replace(tzinfo=pytz.UTC)
             dt_tz = dt_utc.astimezone(pytz.timezone(str_tz))
             dt_s = dt_tz.strftime(FM4)
@@ -41,7 +40,7 @@ def forecast_png_by_hour(deg, str_tz):
             f_png = f'{f_nc[:-3]}_{dt_s}_{deg}.png'
 
             # set intensity z
-            lvl = np.arange(0, 30, 1)
+            lvl = arange(0, 30, 1)
             lvl = lvl if deg == 'C' else lvl * 1.8 + 32
             fig1, ax1 = plt.subplots()
             ax1.set_aspect('equal')
@@ -60,5 +59,5 @@ def forecast_png_by_hour(deg, str_tz):
             # create output PNG image
             plt.savefig(f_png)
             plt.close()
-            bn = os.path.basename(f_png)
+            bn = basename(f_png)
             print(f'{bn}')

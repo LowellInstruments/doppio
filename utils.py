@@ -1,15 +1,18 @@
-import glob
-
+from glob import glob
 
 DL_FOL = '/tmp/doppio'
 
 
 def glob_nc_files():
-    return sorted(glob.glob(f"{DL_FOL}/*.nc"))
+    return sorted(glob(f"{DL_FOL}/*.nc"))
 
 
 def glob_png_files():
-    return sorted(glob.glob(f"{DL_FOL}/*.png"))
+    return sorted(glob(f"{DL_FOL}/*.png"))
+
+
+def glob_gif_files(deg):
+    return sorted(glob(f"{DL_FOL}/_{deg}*.gif"))
 
 
 def build_url(ds, de):
