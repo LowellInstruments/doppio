@@ -49,7 +49,8 @@ def forecast_png_by_hour(deg, str_tz):
             z = z if deg == 'C' else z * 1.8 + 32
             tcf = ax1.contourf(x, y, z[0], cmap='jet', levels=lvl)
             cbar = fig1.colorbar(tcf)
-            cbar.set_label(f'Bottom Temp ({deg})', rotation=-90)
+            cbar.set_label(f'Bottom Temp ({deg})',
+                           rotation=-90, labelpad=25)
 
             # set region to plot
             plt.xlim(LON[0], LON[1])
@@ -57,7 +58,7 @@ def forecast_png_by_hour(deg, str_tz):
             plt.suptitle(f'{dt_s} {str_tz}')
 
             # create output PNG image
-            plt.savefig(f_png)
+            plt.savefig(f_png, dpi=300)
             plt.close()
             bn = basename(f_png)
             print(f'{bn}')
