@@ -5,7 +5,7 @@ import pytz
 from matplotlib import pyplot as plt
 from numpy import ma, arange
 
-from dl import FM4
+from dl import FM4, FM5
 from utils import glob_nc_files
 
 
@@ -47,15 +47,19 @@ def forecast_png_by_hour(deg, str_tz):
             ax1.patch.set_facecolor('0.75')
             z = ma.getdata(nc.variables['temp'][i])
             z = z if deg == 'C' else z * 1.8 + 32
-            tcf = ax1.contourf(x, y, z[0], cmap='jet', levels=lvl)
-            cbar = fig1.colorbar(tcf)
+            tcf = ax1.contourf(x, y, z[0], cmap='jet',
+                               levels=lvl)
+            cbar = fig1.colorbar(tcf, shrink=.8)
             cbar.set_label(f'Bottom Temp ({deg})',
-                           rotation=-90, labelpad=25)
+                           rotation=-90, labelpad=20)
 
             # set region to plot
             plt.xlim(LON[0], LON[1])
             plt.ylim(LAT[0], LAT[1])
-            plt.suptitle(f'{dt_s} {str_tz}')
+
+            # title position, src: stackoverflow 55767312
+            dt_tit = dt_tz.strftime(FM5)
+            plt.suptitle(f'{str_tz}, {dt_tit} ', x=0.4, y=0.9)
 
             # create output PNG image
             plt.savefig(f_png, dpi=300)

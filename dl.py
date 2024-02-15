@@ -11,6 +11,7 @@ from utils import build_url, DL_FOL
 FM2 = '%Y-%m-%d'
 FM3 = '%Y%m%d'
 FM4 = '%Y%m%d%H%M'
+FM5 = '%Y %b %d %Hh'
 
 
 def get_download_nc_file_path(ds):

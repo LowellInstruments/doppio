@@ -19,7 +19,8 @@ def forecast_gif(deg):
 		format='GIF',
 		append_images=ff[1:],
 		save_all=True,
-		duration=len(im),
+		# how fast images rotate
+		duration=len(im) * 10,
 		loop=0
 	)
 
