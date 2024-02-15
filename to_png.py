@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from os.path import basename
 import netCDF4
 import pytz
+from PIL import Image
 from matplotlib import pyplot as plt
 from numpy import ma, arange
 
@@ -66,3 +67,10 @@ def forecast_png_by_hour(deg, str_tz):
             plt.close()
             bn = basename(f_png)
             print(f'{bn}')
+
+            # crop so images have less white space
+            ci = Image.open(f_png)
+            w, h = ci.size
+            l, t, r, b = 100, 100, -150, -100
+            cm = ci.crop((l, t, r + w, b + h))
+            cm.save(f_png)

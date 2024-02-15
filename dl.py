@@ -29,7 +29,7 @@ def _download_url(url, fn):
 
 
 def forecast_data_download(ds=datetime.now(UTC),
-                           de=datetime.now(UTC) + timedelta(days=7)):
+                           de=datetime.now(UTC) + timedelta(days=1)):
 
     print(f'\ndownloading NC files')
     print(f'output dir -> {DL_FOL}')
