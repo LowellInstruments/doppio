@@ -1,4 +1,4 @@
-from datetime import datetime, UTC, timedelta
+from datetime import datetime, timedelta
 from os.path import isdir, basename
 from pathlib import Path
 from shutil import rmtree
@@ -28,9 +28,7 @@ def _download_url(url, fn):
         print('Exception in download_url():', e)
 
 
-def forecast_data_download(ds=datetime.now(UTC),
-                           de=datetime.now(UTC) + timedelta(days=1)):
-
+def forecast_data_download(ds=datetime.utcnow(), n_days=7):
     print(f'\ndownloading NC files')
     print(f'output dir -> {DL_FOL}')
 
@@ -40,6 +38,7 @@ def forecast_data_download(ds=datetime.now(UTC),
     Path(DL_FOL).mkdir(parents=True, exist_ok=True)
 
     # download remote NC file
+    de = ds + timedelta(days=n_days)
     t = time()
     u = build_url(ds.strftime(FM2), de.strftime(FM2))
     f = get_download_nc_file_path(ds)

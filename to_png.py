@@ -4,7 +4,7 @@ import netCDF4
 import pytz
 from PIL import Image
 from matplotlib import pyplot as plt
-from numpy import ma, arange
+from numpy import ma, arange, linspace
 
 from dl import FM4, FM5
 from utils import glob_nc_files
@@ -40,7 +40,7 @@ def forecast_png_by_hour(deg, str_tz):
             # name PNG image output, lose '.nc' extension
             f_png = f'{f_nc[:-3]}_{dt_s}_{deg}.png'
 
-            # set intensity z
+            # set intensity Z
             lvl = arange(0, 30, 1)
             lvl = lvl if deg == 'C' else lvl * 1.8 + 32
             fig1, ax1 = plt.subplots()
@@ -48,6 +48,9 @@ def forecast_png_by_hour(deg, str_tz):
             ax1.patch.set_facecolor('0.75')
             z = ma.getdata(nc.variables['temp'][i])
             z = z if deg == 'C' else z * 1.8 + 32
+            forced_lvl = linspace(0, 100, 100)
+            # you can choose this or not
+            # lvl = forced_lvl
             tcf = ax1.contourf(x, y, z[0], cmap='jet',
                                levels=lvl)
             cbar = fig1.colorbar(tcf, shrink=.8)
